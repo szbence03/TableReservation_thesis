@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Asztalfoglalás</title>
+  <style>
+    .szabad_asztal {
+       background-color: green;
+    }
+
+    .foglalt_asztal {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+<h3> Válassz egy asztalt: </h3>
+
+<form action="#" th:action="@{/asztalfoglalas}" th:object="${foglalas}" method="post">
+  <input type="hidden" th:field="*{idopont}" />
+  <input type="hidden" th:field="*{meddig}" />
+  <input type="hidden" th:field="*{vendegek}" />
+  <table>
+    <tr th:each="a : ${asztalok}">
+      <td th:classappend="${szabadAsztalok.contains(a) ? 'szabad_asztal' : 'foglalt_asztal'}">
+        <input type="radio" th:readonly="${foglaltAsztalok.contains(a)}" th:id="${a.id}" th:value="${a.id}" th:field="${foglalas.asztalId}">
+        <p th:text="${a.ferohely} + ' személyes'"></p>
+      </td>
+    </tr>
+  </table>
+  <br/>
+  <button type="submit">Asztal lefoglalása</button>
+
+</form>
+
+</body>
+
+</html>

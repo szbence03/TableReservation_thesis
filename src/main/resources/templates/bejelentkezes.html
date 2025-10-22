@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bejelentkezés</title>
+</head>
+<body>
+
+<h1> Bejelentkezés</h1>
+<div th:if="${param.error}">
+  <p> Hibás felhasználónév vagy jelszó!</p>
+</div>
+<form action="#" th:action="@{/bejelentkezes-feldolgozas}" method="post">
+  <label>Email: </label>
+  <input type="email" name="email" required />
+  <br/>
+  <label>Jelszó: </label>
+  <input type="password" name="jelszo" required/>
+
+  <br/>
+  <button type="submit">Bejelentkezés</button>
+
+</form>
+
+</body>
+
+</html>
