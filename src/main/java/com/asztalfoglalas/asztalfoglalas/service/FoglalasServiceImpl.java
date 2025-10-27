@@ -10,7 +10,6 @@ import com.asztalfoglalas.asztalfoglalas.entity.Foglalas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +29,9 @@ public class FoglalasServiceImpl implements FoglalasService{
     }
 
     @Override
-    public void save(FoglalasDTO foglalas, Principal principal) {
+    public void save(FoglalasDTO foglalas) {
 
-        int felhasznaloId = felhasznaloRepository.findFelhasznaloIdByEmail(principal.getName());
-        Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.findById(felhasznaloId);
+        Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.findById(foglalas.getFelhasznaloId());
         Optional<Asztal> optionalAsztal = asztalRepository.findById(foglalas.getAsztalId());
 
         if(optionalFelhasznalo.isPresent() && optionalAsztal.isPresent()) {
@@ -83,6 +81,16 @@ public class FoglalasServiceImpl implements FoglalasService{
         return foglalasRepository.listFoglalasByDate(mettol, meddig);
     }
 
+    @Override
+    public boolean checkAktivFoglalasByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig) {
+        List<Foglalas> f =  foglalasRepository.checkAktivFoglalasByFelhasznaloId(id,mettol,meddig);
+        if(!f.isEmpty()) {
+            for(Foglalas ff : f) {
+                System.out.println(ff.getMeddig());
+            }
+        }
+        return !foglalasRepository.checkAktivFoglalasByFelhasznaloId(id, mettol, meddig).isEmpty();
+    }
 
 
 }

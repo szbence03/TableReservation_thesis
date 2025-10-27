@@ -56,8 +56,7 @@ public class RegisztracioController {
                 model.addAttribute("felhasznalo", felhasznaloDTO);
                 return "redirect:/regisztracio?jelszo_error";
             }
-
-            System.out.println("Felhasználó mentése");
+            
             felhasznaloService.save(felhasznaloDTO);
 
             session.setAttribute("felhasznalo", felhasznaloDTO);

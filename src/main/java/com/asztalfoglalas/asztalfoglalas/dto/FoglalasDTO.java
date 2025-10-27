@@ -75,6 +75,10 @@ public class FoglalasDTO {
         this.meddig = meddig;
     }
 
+    public LocalDateTime getFoglalasVege() {
+        return idopont.plusMinutes(meddig);
+    }
+
 
 
 

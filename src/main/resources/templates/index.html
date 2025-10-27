@@ -7,6 +7,7 @@
 <body>
     <h1>Foglalj asztalt:</h1>
     <hr>
+<!--    <p th:if="${param.aktiv-foglalas}"> Ebben az időpontban már van aktív foglalásod!</p>-->
     <form action="#" th:action="@{/idopontfoglalas}" th:object="${foglalas}" method="post">
         <label>Vendégek száma: </label>
         <input type="number" th:field="*{vendegek}" value=1 min="1" max="8" required />

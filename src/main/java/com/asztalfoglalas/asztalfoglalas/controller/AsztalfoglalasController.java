@@ -46,18 +46,57 @@ public class AsztalfoglalasController {
     @PostMapping("/asztalfoglalas")
     public String asztalfoglalas(@ModelAttribute(name = "foglalas") FoglalasDTO foglalas, Principal principal, Model model) {
 
+        Asztal asztal = asztalService.findById(foglalas.getAsztalId());
+
+        //asztal kiszűrése id alapján, hogy az adott időközben ne legyen már lefoglalva
+        if(asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege()).contains(asztal)) {
+            List<Asztal> foglaltAsztalok = asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
+            List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
+            List<Asztal> asztalok = asztalService.findAll();
+
+
+            model.addAttribute("hiba", "Ez az asztal már foglalt a kiválasztott időben!");
+            model.addAttribute("foglaltAsztalok", foglaltAsztalok);
+            model.addAttribute("szabadAsztalok", szabadAsztalok);
+            model.addAttribute("asztalok", asztalok);
+            model.addAttribute("foglalas", foglalas);
+            return "ulohely-foglalas";
+        }
+
+        //vendégek száma ne haladja túl a kiválasztott asztal férőhelyét
+        if(foglalas.getVendegek() > asztal.getFerohely()) {
+            List<Asztal> foglaltAsztalok = asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
+            List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
+            List<Asztal> asztalok = asztalService.findAll();
+
+            model.addAttribute("hiba", "A kiválasztott asztal túl kicsi a vendégeid számához képest!");
+            model.addAttribute("foglaltAsztalok", foglaltAsztalok);
+            model.addAttribute("szabadAsztalok", szabadAsztalok);
+            model.addAttribute("asztalok", asztalok);
+            model.addAttribute("foglalas", foglalas);
+            return "ulohely-foglalas";
+        }
         model.addAttribute("foglalas", foglalas);
-        foglalasService.save(foglalas, principal);
+        foglalasService.save(foglalas);
         return "redirect:/sikeres-foglalas";
     }
 
     @PostMapping("/idopontfoglalas")
-    public String saveReszletek(@ModelAttribute(name = "foglalas") FoglalasDTO foglalas, Model model) {
-        LocalDateTime most = LocalDateTime.now();
+    public String saveReszletek(@ModelAttribute(name = "foglalas") FoglalasDTO foglalas,
+                                Principal principal, Model model) {
 
-        LocalDateTime foglalasVege = foglalas.getIdopont().plusMinutes(foglalas.getMeddig());
-        List<Asztal> foglaltAsztalok = asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalasVege);
-        List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalasVege);
+        LocalDateTime most = LocalDateTime.now();
+        int felhasznaloId = felhasznaloService.findFelhasznaloIdByEmail(principal.getName());
+        foglalas.setFelhasznaloId(felhasznaloId);
+
+        //felhasználó kiszűrése hogy az adott időközben ne legyen már aktív foglalása
+        if(foglalasService.checkAktivFoglalasByFelhasznaloId(foglalas.getFelhasznaloId(),
+                foglalas.getIdopont(), foglalas.getFoglalasVege())) {
+            return "index";
+        }
+
+        List<Asztal> foglaltAsztalok = asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
+        List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
         List<Asztal> asztalok = asztalService.findAll();
 
         model.addAttribute("foglaltAsztalok", foglaltAsztalok);

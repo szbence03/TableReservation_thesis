@@ -15,15 +15,16 @@
 </head>
 <body>
 <h3> Válassz egy asztalt: </h3>
-
+<p th:if="${hiba}" th:text="${hiba}" > </p>
 <form action="#" th:action="@{/asztalfoglalas}" th:object="${foglalas}" method="post">
+  <input type="hidden" th:field="*{felhasznaloId}" />
   <input type="hidden" th:field="*{idopont}" />
   <input type="hidden" th:field="*{meddig}" />
   <input type="hidden" th:field="*{vendegek}" />
   <table>
     <tr th:each="a : ${asztalok}">
       <td th:classappend="${szabadAsztalok.contains(a) ? 'szabad_asztal' : 'foglalt_asztal'}">
-        <input type="radio" th:readonly="${foglaltAsztalok.contains(a)}" th:id="${a.id}" th:value="${a.id}" th:field="${foglalas.asztalId}">
+        <input type="radio" th:readonly="${foglaltAsztalok.contains(a)}" th:id="${a.id}" th:value="${a.id}" th:field="${foglalas.asztalId}" required>
         <p th:text="${a.ferohely} + ' személyes'"></p>
       </td>
     </tr>
