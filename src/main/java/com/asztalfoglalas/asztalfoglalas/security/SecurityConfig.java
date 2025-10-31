@@ -37,6 +37,7 @@ public class SecurityConfig {
                         form
                                 .loginPage("/bejelentkezes")
                                 .loginProcessingUrl("/bejelentkezes-feldolgozas")
+                                .defaultSuccessUrl("/", true)
                                 .usernameParameter("email")
                                 .passwordParameter("jelszo")
                                 .permitAll()

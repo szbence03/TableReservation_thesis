@@ -83,12 +83,7 @@ public class FoglalasServiceImpl implements FoglalasService{
 
     @Override
     public boolean checkAktivFoglalasByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig) {
-        List<Foglalas> f =  foglalasRepository.checkAktivFoglalasByFelhasznaloId(id,mettol,meddig);
-        if(!f.isEmpty()) {
-            for(Foglalas ff : f) {
-                System.out.println(ff.getMeddig());
-            }
-        }
+
         return !foglalasRepository.checkAktivFoglalasByFelhasznaloId(id, mettol, meddig).isEmpty();
     }
 

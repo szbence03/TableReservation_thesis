@@ -22,13 +22,6 @@ public class BejelentkezesController {
         return "bejelentkezes";
     }
 
-    @PostMapping("/bejelentkezes-feldolgozas")
-    public String bejelentkezes(Model model) {
-
-        return "index";
-    }
-
-
     @GetMapping("/kijelentkezes")
     public String kijelentkezes(Model model) {
         return "bejelentkezes";

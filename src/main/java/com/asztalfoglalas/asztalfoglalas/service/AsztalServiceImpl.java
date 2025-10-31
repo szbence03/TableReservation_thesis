@@ -1,8 +1,8 @@
 package com.asztalfoglalas.asztalfoglalas.service;
 
 import com.asztalfoglalas.asztalfoglalas.dao.AsztalRepository;
-import com.asztalfoglalas.asztalfoglalas.dao.FoglalasRepository;
 import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,11 +13,10 @@ import java.util.Optional;
 public class AsztalServiceImpl implements AsztalService {
 
     private final AsztalRepository asztalRepository;
-    private final FoglalasRepository foglalasRepository;
 
-    public AsztalServiceImpl(AsztalRepository asztalRepository, FoglalasRepository foglalasRepository) {
+    @Autowired
+    public AsztalServiceImpl(AsztalRepository asztalRepository) {
         this.asztalRepository = asztalRepository;
-        this.foglalasRepository = foglalasRepository;
     }
 
     @Override
