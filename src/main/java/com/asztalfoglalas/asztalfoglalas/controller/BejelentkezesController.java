@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class BejelentkezesController {
@@ -19,11 +18,6 @@ public class BejelentkezesController {
 
     @GetMapping("/bejelentkezes")
     public String showBejelentkezes(Model model) {
-        return "bejelentkezes";
-    }
-
-    @GetMapping("/kijelentkezes")
-    public String kijelentkezes(Model model) {
         return "bejelentkezes";
     }
 }

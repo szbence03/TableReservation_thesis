@@ -30,9 +30,23 @@ public class FoglalasDTO {
     public FoglalasDTO(int felhasznaloId, int asztalId, int vendegek, LocalDateTime idopont, int meddig) {
         this.felhasznaloId = felhasznaloId;
         this.asztalId = asztalId;
-        this.vendegek = vendegek;
         this.idopont = idopont;
-        this.meddig = meddig;
+
+        if(vendegek < 1) {
+            this.vendegek = 1;
+        } else if (vendegek > 8) {
+            this.vendegek = 8;
+        } else {
+            this.vendegek = vendegek;
+        }
+
+        if(meddig < 30) {
+            this.meddig = 30;
+        } else if(meddig > 180) {
+            this.meddig = 180;
+        } else {
+            this.meddig = meddig;
+        }
     }
 
     public int getFelhasznaloId() {

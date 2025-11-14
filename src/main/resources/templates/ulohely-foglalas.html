@@ -22,6 +22,7 @@
   <input type="hidden" th:field="*{meddig}" />
   <input type="hidden" th:field="*{vendegek}" />
   <table>
+    <!--  TO DO : Soronként ötösével jelenjenek meg az asztalok! -->
     <tr th:each="a : ${asztalok}">
       <td th:classappend="${szabadAsztalok.contains(a) ? 'szabad_asztal' : 'foglalt_asztal'}">
         <input type="radio" th:readonly="${foglaltAsztalok.contains(a)}" th:id="${a.id}" th:value="${a.id}" th:field="${foglalas.asztalId}" required>

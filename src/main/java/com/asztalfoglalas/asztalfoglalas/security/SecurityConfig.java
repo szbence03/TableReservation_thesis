@@ -44,6 +44,9 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/kijelentkezes")
+                        .logoutSuccessUrl("/bejelentkezes?kijelentkezve")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .permitAll()
                 );
 

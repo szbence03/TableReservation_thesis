@@ -76,6 +76,9 @@ public class AsztalfoglalasController {
             model.addAttribute("foglalas", foglalas);
             return "ulohely-foglalas";
         }
+
+        // TO DO: ha a vendégek száma jóval kisebb (pl. <2) mint az asztal férőhelye, csak akkor fogadja el a foglalást,
+        // ha nincs szabad asztal kevesebb férőhellyel (a vendégek számánál nem kevesebbel) az időpontban.
         model.addAttribute("foglalas", foglalas);
         foglalasService.save(foglalas);
         return "redirect:/sikeres-foglalas";
@@ -85,13 +88,15 @@ public class AsztalfoglalasController {
     public String saveReszletek(@ModelAttribute(name = "foglalas") FoglalasDTO foglalas,
                                 Principal principal, Model model) {
 
-        LocalDateTime most = LocalDateTime.now();
+        LocalDateTime most = LocalDateTime.now().plusMinutes(60);
         int felhasznaloId = felhasznaloService.findFelhasznaloIdByEmail(principal.getName());
         foglalas.setFelhasznaloId(felhasznaloId);
+
 
         //felhasználó kiszűrése hogy az adott időközben ne legyen már aktív foglalása
         if(foglalasService.checkAktivFoglalasByFelhasznaloId(foglalas.getFelhasznaloId(),
                 foglalas.getIdopont(), foglalas.getFoglalasVege())) {
+            model.addAttribute("hiba", "Már foglaltál ebben az időpontban!");
             return "index";
         }
 
@@ -99,13 +104,19 @@ public class AsztalfoglalasController {
         List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
         List<Asztal> asztalok = asztalService.findAll();
 
+        // ha az összes asztal foglalt a foglalás időpontjában, akkor visszadob az index-re
+        if(foglaltAsztalok.size() == asztalok.size()) {
+            model.addAttribute("hiba", "Ebben az időpontban már minden asztal foglalt!");
+            return "index";
+        }
+
         model.addAttribute("foglaltAsztalok", foglaltAsztalok);
         model.addAttribute("szabadAsztalok", szabadAsztalok);
         model.addAttribute("asztalok", asztalok);
         model.addAttribute("foglalas", foglalas);
 
         if(foglalas.getIdopont().isBefore(most)) {
-            System.out.println("Lejárt dátum!");
+            model.addAttribute("hiba", "Legalább 60 perccel későbbi időpontot válassz!");
             return "index";
         }
 
