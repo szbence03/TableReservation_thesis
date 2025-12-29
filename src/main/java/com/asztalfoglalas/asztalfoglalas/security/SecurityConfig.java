@@ -26,11 +26,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests(config ->
                         config
                                 .requestMatchers(
+                                        "/",
                                         "/regisztracio**",
-                                        "/regisztracio-feldolgozas",
                                         "/bejelentkezes").permitAll()
-                                .requestMatchers("/idopontfoglalas").authenticated()
-                                .requestMatchers("/asztalfoglalas").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

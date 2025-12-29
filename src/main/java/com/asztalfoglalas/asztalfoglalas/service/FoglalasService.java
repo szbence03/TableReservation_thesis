@@ -16,7 +16,10 @@ public interface FoglalasService {
 
     List<Foglalas> findAll();
 
-    public List<Foglalas> listFoglalasByDate(LocalDateTime mettol, LocalDateTime meddig);
+    boolean checkAktivFoglalasByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig);
 
-    public boolean checkAktivFoglalasByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig);
+    List<Foglalas> getAktivFoglalasokByFelhasznaloId(int id);
+
+    Foglalas findLatestFoglalasByFelhasznaloId(int id);
+
 }

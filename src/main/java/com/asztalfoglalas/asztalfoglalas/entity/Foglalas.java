@@ -3,6 +3,7 @@ package com.asztalfoglalas.asztalfoglalas.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "foglalas")
@@ -93,8 +94,8 @@ public class Foglalas {
     @Override
     public String toString() {
         return "Foglalas{" +
-                "felhasznalo=" + felhasznalo +
-                ", asztal=" + asztal +
+                "felhasznalo=" + felhasznalo.getId() +
+                ", asztal=" + asztal.getId() +
                 ", vendegek=" + vendegek +
                 ", mettol=" + mettol +
                 ", meddig=" + meddig +

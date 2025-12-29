@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta charset="UTF-8">
     <title>Sikeres foglalás</title>
 </head>
 <body>
 <h1>Sikeresen lefoglaltad az asztalodat!</h1>
+<h3>Foglalásod adatai: </h3>
+<hr>
+<div th:object="${foglalas}">
+    <p th:text="'Asztal száma: ' + *{asztal.id}"></p>
+    <p th:text="'Asztal férőhelye: ' + *{asztal.ferohely}"></p>
+    <p th:text="'Vendégeid száma: ' + *{vendegek}"></p>
+    <p th:text="'Foglalás kezdete: ' + *{#temporals.format(mettol, 'yyyy.MM.dd. HH:mm:ss')}"></p>
+    <p th:text="'Foglalás vége: ' + *{#temporals.format(meddig, 'yyyy.MM.dd. HH:mm:ss')}"></p>
+</div>
 </body>
 </html>

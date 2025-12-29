@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<html lang="hu" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <title>Asztalfoglalás</title>
@@ -25,7 +25,7 @@
     <!--  TO DO : Soronként ötösével jelenjenek meg az asztalok! -->
     <tr th:each="a : ${asztalok}">
       <td th:classappend="${szabadAsztalok.contains(a) ? 'szabad_asztal' : 'foglalt_asztal'}">
-        <input type="radio" th:readonly="${foglaltAsztalok.contains(a)}" th:id="${a.id}" th:value="${a.id}" th:field="${foglalas.asztalId}" required>
+        <input type="radio" th:disabled="${foglaltAsztalok.contains(a)}" th:id="${a.id}" th:value="${a.id}" th:field="${foglalas.asztalId}" required>
         <p th:text="${a.ferohely} + ' személyes'"></p>
       </td>
     </tr>

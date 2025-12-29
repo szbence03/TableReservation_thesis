@@ -9,17 +9,19 @@ import java.util.List;
 
 public interface FelhasznaloService extends UserDetailsService {
 
-    public void save(FelhasznaloDTO felhasznalo);
+    void save(FelhasznaloDTO felhasznalo);
 
-    public void deleteById(int id);
+    void deleteById(int id);
 
-    public Felhasznalo findById(int id);
+    Felhasznalo findById(int id);
 
-    public List<Felhasznalo> findAll();
+    List<Felhasznalo> findAll();
 
-    public List<Felhasznalo> getFelhasznaloAndFoglalasokById(int id);
+    UserDetails loadUserByUsername(String email);
 
-    public UserDetails loadUserByUsername(String email);
+    int findFelhasznaloIdByEmail(String email);
 
-    public int findFelhasznaloIdByEmail(String email);
+    Felhasznalo findFelhasznaloByEmail(String email);
+
+    boolean existsByEmail(String email);
 }

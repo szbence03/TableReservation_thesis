@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="hu" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Aktív foglalásaim</title>
+</head>
+<body>
+
+<h1>Aktív foglalásaim</h1>
+
+<p th:if="${hiba}" th:text="${hiba}" > </p>
+<p th:if="${sikeresTorles}" th:text="${sikeresTorles}" > </p>
+<div th:each="f : ${felhasznalo.foglalasok}">
+  <p th:text="${f.asztal}"> </p>
+  <p th:text="'Vendégek száma: ' + ${f.vendegek}"> </p>
+  <p th:text="'Foglalás kezdete: ' + ${#temporals.format(f.mettol, 'yyyy.MM.dd. HH:mm:ss')}"> </p>
+  <p th:text="'Foglalás vége: ' + ${#temporals.format(f.meddig, 'yyyy.MM.dd. HH:mm:ss')}"> </p>
+  <form th:action="@{'/foglalas-lemondas/' + ${f.id}}" method="post">
+    <button type="submit"> Foglalás lemondása </button>
+  </form>
+  <hr>
+</div>
+
+<p th:if="${felhasznalo.foglalasok == null || felhasznalo.foglalasok.isEmpty()}"> Jelenleg nincs aktív foglalásod.</p>
+
+</body>
+</html>

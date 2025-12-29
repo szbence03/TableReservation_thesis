@@ -61,18 +61,13 @@ public class FelhasznaloServiceImpl implements FelhasznaloService{
         return felhasznaloRepository.findAll();
     }
 
-    @Override
-    public List<Felhasznalo> getFelhasznaloAndFoglalasokById(int id) {
-        return felhasznaloRepository.getFelhasznaloAndFoglalasokByFelhasznaloId(id);
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.loadUserByUsername(email);
 
         if(optionalFelhasznalo.isEmpty()) {
-            throw new UsernameNotFoundException("A keresett felhasználó nem létezik.");
+            throw new UsernameNotFoundException("A keresett felhasználó nem létezik!");
         }
 
         Felhasznalo felhasznalo = optionalFelhasznalo.get();
@@ -86,6 +81,24 @@ public class FelhasznaloServiceImpl implements FelhasznaloService{
     @Override
     public int findFelhasznaloIdByEmail(String email) {
         return felhasznaloRepository.findFelhasznaloIdByEmail(email);
+    }
+
+    @Override
+    public Felhasznalo findFelhasznaloByEmail(String email) {
+        Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.findFelhasznaloByEmail(email);
+
+        if(optionalFelhasznalo.isEmpty()) {
+            throw new UsernameNotFoundException("A keresett felhasználó nem létezik!");
+        }
+
+        return optionalFelhasznalo.get();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.findFelhasznaloByEmail(email);
+
+        return optionalFelhasznalo.isPresent();
     }
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="hu" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Regisztráció</title>
@@ -9,6 +9,9 @@
 <h1> Regisztráció</h1>
 <div th:if="${param.success}">
   <p> Sikeres regisztráció!</p>
+</div>
+<div th:if="${hiba}">
+  <p th:text="${hiba}"> </p>
 </div>
 <form action="#" th:action="@{/regisztracio-feldolgozas}" th:object="${felhasznalo}" method="post">
   <label>Keresztnév: </label>

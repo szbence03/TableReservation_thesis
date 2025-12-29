@@ -19,15 +19,6 @@ public class AsztalServiceImpl implements AsztalService {
         this.asztalRepository = asztalRepository;
     }
 
-    @Override
-    public void save(Asztal asztal) {
-        asztalRepository.save(asztal);
-    }
-
-    @Override
-    public void deleteById(int id) {
-        asztalRepository.deleteById(id);
-    }
 
     @Override
     public Asztal findById(int id) {
@@ -38,7 +29,7 @@ public class AsztalServiceImpl implements AsztalService {
         if(optionalAsztal.isPresent()) {
             asztal = optionalAsztal.get();
         } else {
-            throw new RuntimeException("Nem létezik a keresett asztal.");
+            throw new RuntimeException("Nem létezik a keresett asztal!");
         }
         return asztal;
     }

@@ -64,7 +64,6 @@ public class Asztal {
         return "Asztal{" +
                 "id=" + id +
                 ", ferohely=" + ferohely +
-                ", foglalasok=" + foglalasok +
                 '}';
     }
 }

@@ -47,7 +47,7 @@ public class FoglalasServiceImpl implements FoglalasService{
 
             foglalasRepository.save(foglalasEntity);
         } else {
-            throw new RuntimeException("Hiba: a felhasználó vagy az asztal nem létezik a beolvasott azonosítóval.");
+            throw new RuntimeException("A felhasználó vagy az asztal nem létezik a beolvasott azonosítóval!");
         }
 
     }
@@ -76,15 +76,27 @@ public class FoglalasServiceImpl implements FoglalasService{
         return foglalasRepository.findAll();
     }
 
-    @Override
-    public List<Foglalas> listFoglalasByDate(LocalDateTime mettol, LocalDateTime meddig) {
-        return foglalasRepository.listFoglalasByDate(mettol, meddig);
-    }
 
     @Override
     public boolean checkAktivFoglalasByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig) {
 
-        return !foglalasRepository.checkAktivFoglalasByFelhasznaloId(id, mettol, meddig).isEmpty();
+        return !foglalasRepository.checkAktivFoglalasokByFelhasznaloId(id, mettol, meddig).isEmpty();
+    }
+
+    @Override
+    public List<Foglalas> getAktivFoglalasokByFelhasznaloId(int id) {
+        return foglalasRepository.getAktivFoglalasokByFelhasznaloId(id, LocalDateTime.now());
+    }
+
+    @Override
+    public Foglalas findLatestFoglalasByFelhasznaloId(int id) {
+        Optional<Foglalas> optionalFoglalas = foglalasRepository.findLatestFoglalasByFelhasznaloId(id);
+
+        if(optionalFoglalas.isEmpty()) {
+            throw new RuntimeException("A keresett foglalás nem létezik.");
+        }
+
+        return optionalFoglalas.get();
     }
 
 
