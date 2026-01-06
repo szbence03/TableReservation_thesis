@@ -1,19 +1,37 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Sikeres foglalás</title>
 </head>
-<body>
-<h1>Sikeresen lefoglaltad az asztalodat!</h1>
-<h3>Foglalásod adatai: </h3>
-<hr>
-<div th:object="${foglalas}">
-    <p th:text="'Asztal száma: ' + *{asztal.id}"></p>
-    <p th:text="'Asztal férőhelye: ' + *{asztal.ferohely}"></p>
-    <p th:text="'Vendégeid száma: ' + *{vendegek}"></p>
-    <p th:text="'Foglalás kezdete: ' + *{#temporals.format(mettol, 'yyyy.MM.dd. HH:mm:ss')}"></p>
-    <p th:text="'Foglalás vége: ' + *{#temporals.format(meddig, 'yyyy.MM.dd. HH:mm:ss')}"></p>
-</div>
+<body data-bs-theme="dark" class="bg-body-tertiary">
+
+<header class="p-3 text-bg-dark" data-bs-theme="dark">
+    <div th:replace="~{/header :: header}"></div>
+</header>
+<main class="position-absolute top-50 start-50 translate-middle w-100" style="max-width:800px;">
+    <div class="bg-dark-subtle p-4 rounded">
+        <div class="d-flex justify-content-center mb-3">
+            <h1>Sikeresen lefoglaltad az asztalodat!</h1>
+        </div>
+        <div class="text-center">
+        <h3 class="py-3">Foglalásod adatai: </h3>
+            <div th:object="${foglalas}">
+                <p th:text="'Asztal száma: ' + *{asztal.id}"></p>
+                <p th:text="'Asztal férőhelye: ' + *{asztal.ferohely}"></p>
+                <p th:text="'Vendégeid száma: ' + *{vendegek}"></p>
+                <p th:text="'Foglalás kezdete: ' + *{#temporals.format(mettol, 'yyyy.MM.dd. HH:mm:ss')}"></p>
+                <p th:text="'Foglalás vége: ' + *{#temporals.format(meddig, 'yyyy.MM.dd. HH:mm:ss')}"></p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <a class="btn btn-primary" th:href="@{/}" role="button">Vissza a főoldalra</a>
+        </div>
+    </div>
+
+</main>
+
 </body>
 </html>

@@ -45,7 +45,7 @@ public class RegisztracioController {
     @PostMapping("/regisztracio-feldolgozas")
     public String regisztacio(@Valid @ModelAttribute("felhasznalo")FelhasznaloDTO felhasznaloDTO,
                               BindingResult bindingResult, Authentication authentication,
-                              RedirectAttributes redirectAttributes, Model model) {
+                              RedirectAttributes redirectAttributes) {
 
         if(authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
@@ -65,6 +65,7 @@ public class RegisztracioController {
             }
             
         felhasznaloService.save(felhasznaloDTO);
+        redirectAttributes.addFlashAttribute("siker", "Sikeres regisztráció!");
         return "redirect:/bejelentkezes";
         }
 }

@@ -1,0 +1,48 @@
+<div class="container" th:fragment="header" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+  <div sec:authorize="isAuthenticated()" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <div class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                <span class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-hexagon" viewBox="0 0 16 16">
+                        <path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866z"/>
+                    </svg>
+                Minta Étterem
+            </span>
+    </div>
+    <ul class="nav col-12 col-lg-auto me-lg-auto ms-lg-3 mb-2 justify-content-center mb-md-0">
+      <li>
+        <a th:href="@{/}" class="nav-link px-2 link-body-emphasis">Főoldal</a>
+      </li>
+      <li>
+        <a th:href="@{/idopontvalasztas}" class="nav-link px-2 link-body-emphasis">Asztalfoglalás</a>
+      </li>
+      <li>
+        <a th:href="@{/aktiv-foglalasaim}" class="nav-link px-2 link-body-emphasis">Aktív foglalásaim</a>
+      </li>
+    </ul>
+    <div class="text-end">
+      <form th:action="@{/kijelentkezes}" method="post">
+        <button type="submit" class="btn btn-primary">Kijelentkezés</button>
+      </form>
+    </div>
+  </div>
+
+  <div sec:authorize="isAnonymous()" class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <div class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                <span class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-hexagon" viewBox="0 0 16 16">
+                        <path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866z"/>
+                    </svg>
+                Minta Étterem
+            </span>
+    </div>
+    <ul class="nav col-12 col-lg-auto me-lg-auto ms-lg-3 mb-2 justify-content-center mb-md-0">
+      <li>
+        <a th:href="@{/}" class="nav-link px-2 link-body-emphasis">Főoldal</a>
+      </li>
+    </ul>
+    <div class="text-end">
+      <a th:href="@{/bejelentkezes}" class="btn btn-outline-light me-2">Bejelentkezés</a>
+      <a th:href="@{/regisztracio}" class="btn btn-primary me-2">Regisztráció</a>
+    </div>
+  </div>
+</div>

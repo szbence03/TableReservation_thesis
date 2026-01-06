@@ -5,17 +5,9 @@ import com.asztalfoglalas.asztalfoglalas.entity.Felhasznalo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.List;
-
 public interface FelhasznaloService extends UserDetailsService {
 
     void save(FelhasznaloDTO felhasznalo);
-
-    void deleteById(int id);
-
-    Felhasznalo findById(int id);
-
-    List<Felhasznalo> findAll();
 
     UserDetails loadUserByUsername(String email);
 

@@ -1,40 +1,107 @@
 <!DOCTYPE html>
-<html lang="hu" xmlns:th="https://www.thymeleaf.org">
+<html lang="hu" xmlns:th="https://www.thymeleaf.org" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <title>Regisztráció</title>
-</head>
-<body>
 
-<h1> Regisztráció</h1>
+  <style>
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .regisztracio {
+      max-width: 600px;
+      padding: 1rem;
+    }
+
+    .regisztracio .form-floating:focus-within {
+      z-index: 2;
+    }
+
+    .regisztracio input[type="email"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .regisztracio input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  </style>
+</head>
+<body data-bs-theme="dark" class="bg-body-tertiary">
+
+<header class="p-3 text-bg-dark" data-bs-theme="dark">
+  <div th:replace="~{/header :: header}"></div>
+</header>
+
 <div th:if="${param.success}">
   <p> Sikeres regisztráció!</p>
 </div>
-<div th:if="${hiba}">
-  <p th:text="${hiba}"> </p>
-</div>
-<form action="#" th:action="@{/regisztracio-feldolgozas}" th:object="${felhasznalo}" method="post">
-  <label>Keresztnév: </label>
-  <input type="text" th:field="*{keresztnev}" required />
-  <br/>
-  <label>Vezetéknév: </label>
-  <input type="text" th:field="*{vezeteknev}" required />
-  <br/>
-  <label>Email: </label>
-  <input type="email" th:field="*{email}" required/>
-  <br/>
-  <label>Jelszó: </label>
-  <input type="password" th:field="*{jelszo}" required/>
-  <br/>
-  <label>Jelszó újra: </label>
-  <input type="password" th:field="*{jelszoMegerosites}" required/>
-  <br/>
 
-  <br/>
-  <button type="submit">Regisztráció</button>
 
-</form>
-
+  <main class="position-absolute regisztracio w-100 m-auto top-50 start-50 translate-middle">
+    <form class="row g-3 bg-dark-subtle p-4 rounded" th:action="@{/regisztracio-feldolgozas}" th:object="${felhasznalo}" method="post">
+      <h3 class="h3 mb-3 fw-normal text-center">Regisztráció</h3>
+      <div th:if="${hiba}" class="alert alert-danger" role="alert">
+        <p th:text="${hiba}" class="text-center"> </p>
+      </div>
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="keresztnev" th:classappend="${#fields.hasErrors('keresztnev')} ? 'is-invalid' : ''"
+               th:field="*{keresztnev}" required placeholder="Keresztnév">
+        <label for="keresztnev">Keresztnév*</label>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('keresztnev')}"
+             th:errors="*{keresztnev}">
+        </div>
+      </div>
+      <div class="col-md-6 form-floating">
+        <input type="text" class="form-control" id="vezeteknev" th:classappend="${#fields.hasErrors('vezeteknev')} ? 'is-invalid' : ''"
+               th:field="*{vezeteknev}" required placeholder="Vezetéknév">
+        <label for="vezeteknev">Vezetéknév*</label>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('vezeteknev')}"
+             th:errors="*{vezeteknev}">
+        </div>
+      </div>
+      <div class="col-12 form-floating">
+        <input type="email" class="form-control" id="email" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+               th:field="*{email}" required placeholder="name@email.com">
+        <label for="email">Email-cím*</label>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}">
+        </div>
+      </div>
+      <div class="col-md-6 form-floating">
+        <input type="password" class="form-control" id="jelszo" th:classappend="${#fields.hasErrors('jelszo')} ? 'is-invalid' : ''"
+               th:field="*{jelszo}" required placeholder="jelszó">
+        <label for="jelszo">Jelszó*</label>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('jelszo')}"
+             th:errors="*{jelszo}">
+        </div>
+      </div>
+      <div class="col-md-6 form-floating">
+        <input type="password" class="form-control" id="jelszoMegerosites" th:classappend="${#fields.hasErrors('jelszoMegerosites')} ? 'is-invalid' : ''"
+               th:field="*{jelszoMegerosites}" placeholder="jelszó ismét">
+        <label for="jelszoMegerosites">Jelszó újra*</label>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('jelszoMegerosites')}"
+             th:errors="*{jelszoMegerosites}">
+        </div>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary w-100 py-2">Regisztráció</button>
+      </div>
+    </form>
+  </main>
 </body>
 
 </html>

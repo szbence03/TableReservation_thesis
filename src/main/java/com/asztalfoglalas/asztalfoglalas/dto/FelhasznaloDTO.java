@@ -1,28 +1,29 @@
 package com.asztalfoglalas.asztalfoglalas.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class FelhasznaloDTO {
 
-    @NotNull
-    @Size(min = 1, message = "kötelező mező")
+    @NotBlank
+    @Size(min = 2, message = "Minimum 2 karakterből álljon!")
     private String keresztnev;
 
-    @NotNull
-    @Size(min = 1, message = "kötelező mező")
+    @NotBlank
+    @Size(min = 2, message = "Minimum 2 karakterből álljon!")
     private String vezeteknev;
 
-    @NotNull
-    @Size(min = 6, message = "kötelező mező")
+    @NotBlank
+    @Size(min = 6, message = "Minimum 6 karakterből álljon!")
     private String email;
 
-    @NotNull
-    @Size(min = 8, message = "legyen minimum 8 karakter hosszú")
+    @NotBlank
+    @Size(min = 8, message = "Legyen minimum 8 karakter hosszú!")
     private String jelszo;
 
-    @NotNull
-    @Size(min = 8, message = "legyen minimum 8 karakter hosszú")
+    @NotBlank
+    @Size(min = 8, message = "Legyen minimum 8 karakter hosszú!")
     private String jelszoMegerosites;
 
     public FelhasznaloDTO() {

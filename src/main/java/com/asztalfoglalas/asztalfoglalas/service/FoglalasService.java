@@ -14,8 +14,6 @@ public interface FoglalasService {
 
     Foglalas findById(int id);
 
-    List<Foglalas> findAll();
-
     boolean checkAktivFoglalasByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig);
 
     List<Foglalas> getAktivFoglalasokByFelhasznaloId(int id);

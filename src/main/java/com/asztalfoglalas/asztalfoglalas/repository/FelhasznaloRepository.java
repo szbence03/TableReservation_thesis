@@ -1,4 +1,4 @@
-package com.asztalfoglalas.asztalfoglalas.dao;
+package com.asztalfoglalas.asztalfoglalas.repository;
 
 import com.asztalfoglalas.asztalfoglalas.entity.Felhasznalo;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface FelhasznaloRepository extends JpaRepository<Felhasznalo, Integer> {
 
     //mivel nincs felhasználónév az adatbázisomban csak vezetéknév, keresztnév, ezért email alapján fogom
-    // megkeresni és betölteni a felhasználót, ha létezik
+    // megkeresni és betölteni a felhasználót a sessionbe, ha létezik
     @Query("SELECT f FROM Felhasznalo f WHERE f.email = ?1")
     Optional<Felhasznalo> loadUserByUsername(String email);
 

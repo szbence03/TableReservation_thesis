@@ -1,8 +1,8 @@
 package com.asztalfoglalas.asztalfoglalas.service;
 
-import com.asztalfoglalas.asztalfoglalas.dao.AsztalRepository;
-import com.asztalfoglalas.asztalfoglalas.dao.FelhasznaloRepository;
-import com.asztalfoglalas.asztalfoglalas.dao.FoglalasRepository;
+import com.asztalfoglalas.asztalfoglalas.repository.AsztalRepository;
+import com.asztalfoglalas.asztalfoglalas.repository.FelhasznaloRepository;
+import com.asztalfoglalas.asztalfoglalas.repository.FoglalasRepository;
 import com.asztalfoglalas.asztalfoglalas.dto.FoglalasDTO;
 import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
 import com.asztalfoglalas.asztalfoglalas.entity.Felhasznalo;
@@ -43,7 +43,7 @@ public class FoglalasServiceImpl implements FoglalasService{
                     asztal,
                     foglalas.getVendegek(),
                     foglalas.getIdopont(),
-                    foglalas.getMeddig());
+                    foglalas.getFoglalasVege());
 
             foglalasRepository.save(foglalasEntity);
         } else {
@@ -59,21 +59,8 @@ public class FoglalasServiceImpl implements FoglalasService{
 
     @Override
     public Foglalas findById(int id) {
-        Optional<Foglalas> optionalFoglalas = foglalasRepository.findById(id);
 
-        Foglalas foglalas;
-
-        if(optionalFoglalas.isPresent()) {
-            foglalas = optionalFoglalas.get();
-        } else {
-            throw new RuntimeException("A keresett foglalás nem létezik.");
-        }
-        return foglalas;
-    }
-
-    @Override
-    public List<Foglalas> findAll() {
-        return foglalasRepository.findAll();
+        return foglalasRepository.findById(id).orElse(null);
     }
 
 
@@ -98,6 +85,5 @@ public class FoglalasServiceImpl implements FoglalasService{
 
         return optionalFoglalas.get();
     }
-
 
 }

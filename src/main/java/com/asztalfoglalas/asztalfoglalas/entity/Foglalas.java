@@ -3,15 +3,12 @@ package com.asztalfoglalas.asztalfoglalas.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
-@Table(name = "foglalas")
 public class Foglalas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
     @ManyToOne
@@ -22,25 +19,22 @@ public class Foglalas {
     @JoinColumn(name = "asztal_id")
     private Asztal asztal;
 
-    @Column(name = "vendegek")
     private int vendegek;
 
-    @Column(name = "mettol")
     private LocalDateTime mettol;
 
-    @Column(name = "meddig")
     private LocalDateTime meddig;
 
 
     public Foglalas() {
     }
 
-    public Foglalas(Felhasznalo felhasznalo, Asztal asztal, int vendegek, LocalDateTime mettol, int meddigConvert) {
+    public Foglalas(Felhasznalo felhasznalo, Asztal asztal, int vendegek, LocalDateTime mettol, LocalDateTime meddig) {
         this.felhasznalo = felhasznalo;
         this.asztal = asztal;
         this.vendegek = vendegek;
         this.mettol = mettol;
-        this.meddig = this.mettol.plusMinutes(meddigConvert);
+        this.meddig = meddig;
     }
 
     public int getId() {

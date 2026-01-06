@@ -1,6 +1,6 @@
 package com.asztalfoglalas.asztalfoglalas.service;
 
-import com.asztalfoglalas.asztalfoglalas.dao.AsztalRepository;
+import com.asztalfoglalas.asztalfoglalas.repository.AsztalRepository;
 import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +22,9 @@ public class AsztalServiceImpl implements AsztalService {
 
     @Override
     public Asztal findById(int id) {
-        Optional<Asztal> optionalAsztal = asztalRepository.findById(id);
 
-        Asztal asztal;
+        return asztalRepository.findById(id).orElse(null);
 
-        if(optionalAsztal.isPresent()) {
-            asztal = optionalAsztal.get();
-        } else {
-            throw new RuntimeException("Nem létezik a keresett asztal!");
-        }
-        return asztal;
     }
 
     @Override

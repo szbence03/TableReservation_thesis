@@ -1,4 +1,4 @@
-package com.asztalfoglalas.asztalfoglalas.dao;
+package com.asztalfoglalas.asztalfoglalas.repository;
 
 import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
 import org.springframework.data.jpa.repository.JpaRepository;

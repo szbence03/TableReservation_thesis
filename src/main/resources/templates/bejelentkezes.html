@@ -1,27 +1,66 @@
 <!DOCTYPE html>
-<html lang="hu" xmlns:th="https://www.thymeleaf.org">
+<html lang="hu" xmlns:th="https://www.thymeleaf.org" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <title>Bejelentkezés</title>
+  <style>
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .bejelentkezes {
+      max-width: 330px;
+      padding: 1rem;
+    }
+
+    .bejelentkezes .form-floating:focus-within {
+      z-index: 2;
+    }
+
+    .bejelentkezes input[type="email"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .bejelentkezes input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  </style>
+
 </head>
-<body>
+<body data-bs-theme="dark" class="bg-body-tertiary">
 
-<h1> Bejelentkezés</h1>
-<div th:if="${param.error}">
-  <p> Hibás felhasználónév vagy jelszó!</p>
-</div>
-<form action="#" th:action="@{/bejelentkezes-feldolgozas}" method="post">
-  <label>Email: </label>
-  <input type="email" name="email" required />
-  <br/>
-  <label>Jelszó: </label>
-  <input type="password" name="jelszo" required/>
+<header class="p-3 text-bg-dark" data-bs-theme="dark">
+  <div th:replace="~{/header :: header}"></div>
+</header>
 
-  <br/>
-  <button type="submit">Bejelentkezés</button>
-
-</form>
-
+<main class="position-absolute bejelentkezes w-100 m-auto top-50 start-50 translate-middle">
+  <form class="bg-dark-subtle p-3 rounded" th:action="@{/bejelentkezes-feldolgozas}" method="post">
+    <h3 class="h3 mb-3 fw-normal text-center">Jelentkezz be!</h3>
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+      Hibás felhasználónév vagy jelszó!
+    </div>
+    <div th:if="${siker}" class="alert alert-success" role="alert">
+      <p th:text="${siker}" class="text-center"> </p>
+    </div>
+    <div class="form-floating">
+      <input type="email" class="form-control" id="email" name="email" required placeholder="name@email.com">
+      <label for="email">Email-cím</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="pw" name="jelszo" required placeholder="jelszo">
+      <label for="pw">Jelszó</label>
+    </div>
+    <button class="btn btn-primary w-100 py-2" type="submit">Bejelentkezés</button>
+  </form>
+</main>
 </body>
 
 </html>

@@ -1,7 +1,10 @@
 package com.asztalfoglalas.asztalfoglalas.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.time.LocalDateTime;
@@ -9,68 +12,68 @@ import java.time.LocalDateTime;
 public class FoglalasDTO {
 
     @NotNull
-    private int felhasznaloId;
+    private Integer felhasznaloId;
+
+    //Az asztal ellenőrzése külön történik az AsztalfoglalasControllerben,
+    // mert 1 lépéssel később kérem be a felhasználótól
+    private Integer asztalId;
 
     @NotNull
-    private int asztalId;
+    @Min(value = 1, message = "A vendégek száma minimum 1 legyen!")
+    @Max(value = 8, message = "A vendégek száma legfeljebb 8 lehet!")
+    private Integer vendegek;
 
     @NotNull
-    private int vendegek;
-
-    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime idopont;
 
     @NotNull
-    private int meddig;
+    @Min(value = 30, message = "A minimális megengedett érték 30!")
+    @Max(value = 180, message = "A maximális megengedett érték 180!")
+    private Integer meddig;
 
     public FoglalasDTO() {
 
     }
 
-    public FoglalasDTO(int felhasznaloId, int asztalId, int vendegek, LocalDateTime idopont, int meddig) {
+    public FoglalasDTO(Integer felhasznaloId, Integer asztalId, Integer vendegek, Integer meddig, LocalDateTime idopont) {
         this.felhasznaloId = felhasznaloId;
         this.asztalId = asztalId;
+        this.vendegek = vendegek;
+        this.meddig = meddig;
         this.idopont = idopont;
-
-        if(vendegek < 1) {
-            this.vendegek = 1;
-        } else if (vendegek > 8) {
-            this.vendegek = 8;
-        } else {
-            this.vendegek = vendegek;
-        }
-
-        if(meddig < 30) {
-            this.meddig = 30;
-        } else if(meddig > 180) {
-            this.meddig = 180;
-        } else {
-            this.meddig = meddig;
-        }
     }
 
-    public int getFelhasznaloId() {
+    public Integer getFelhasznaloId() {
         return felhasznaloId;
     }
 
-    public void setFelhasznaloId(int felhasznaloId) {
-        this.felhasznaloId =felhasznaloId;
+    public void setFelhasznaloId(Integer felhasznaloId) {
+        this.felhasznaloId = felhasznaloId;
     }
 
-    public int getAsztalId() {
+    public Integer getAsztalId() {
         return asztalId;
     }
 
-    public void setAsztalId(int asztalId) {
+    public void setAsztalId(Integer asztalId) {
         this.asztalId = asztalId;
     }
 
-    public int getVendegek() {
+    public Integer getVendegek() {
         return vendegek;
     }
 
-    public void setVendegek(int vendegek) {
+    public void setVendegek(Integer vendegek) {
         this.vendegek = vendegek;
+    }
+
+    public Integer getMeddig() {
+        return meddig;
+    }
+
+    public void setMeddig(Integer meddig) {
+        this.meddig = meddig;
     }
 
     public LocalDateTime getIdopont() {
@@ -81,13 +84,6 @@ public class FoglalasDTO {
         this.idopont = idopont;
     }
 
-    public int getMeddig() {
-        return meddig;
-    }
-
-    public void setMeddig(int meddig) {
-        this.meddig = meddig;
-    }
 
     public LocalDateTime getFoglalasVege() {
         return idopont.plusMinutes(meddig);
