@@ -17,9 +17,6 @@ public interface FoglalasRepository extends JpaRepository<Foglalas, Integer> {
     @Query("SELECT f FROM Foglalas f WHERE f.felhasznalo.id = ?1 AND f.meddig >= ?2 ORDER BY f.mettol ASC")
     List<Foglalas> getAktivFoglalasokByFelhasznaloId(int id, LocalDateTime most);
 
-    @Query("SELECT f FROM Foglalas f WHERE f.id = (SELECT MAX(f.id) FROM Foglalas f WHERE f.felhasznalo.id = ?1)")
-    Optional<Foglalas> findLatestFoglalasByFelhasznaloId(int id);
-
     @Modifying
     @Query("DELETE FROM Foglalas f WHERE f.meddig < ?1")
     int deleteLejartFoglalasok(LocalDateTime most);

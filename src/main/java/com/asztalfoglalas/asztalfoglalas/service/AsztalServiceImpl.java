@@ -1,5 +1,6 @@
 package com.asztalfoglalas.asztalfoglalas.service;
 
+import com.asztalfoglalas.asztalfoglalas.dto.FoglalasDTO;
 import com.asztalfoglalas.asztalfoglalas.repository.AsztalRepository;
 import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,19 @@ public class AsztalServiceImpl implements AsztalService {
     @Override
     public List<Asztal> getFoglaltAsztalok(LocalDateTime mettol, LocalDateTime meddig) {
         return asztalRepository.getFoglaltAsztalok(mettol, meddig);
+    }
+
+    @Override
+    public boolean checkAsztalFoglaltE(Asztal asztal, LocalDateTime mettol, LocalDateTime meddig) {
+        List<Asztal> foglaltAsztalok = asztalRepository.getFoglaltAsztalok(mettol, meddig);
+        return foglaltAsztalok.contains(asztal);
+    }
+
+    @Override
+    public boolean checkAsztalOptimalisE(FoglalasDTO foglalas, Asztal asztal) {
+        List<Asztal> szabadAsztalok = asztalRepository.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
+        boolean optimalisE = (asztal.getFerohely() - foglalas.getVendegek()) > 2 &&
+                (szabadAsztalok.stream().filter(a -> (a.getFerohely() - foglalas.getVendegek()) < 2).count() > 0);
+        return optimalisE;
     }
 }

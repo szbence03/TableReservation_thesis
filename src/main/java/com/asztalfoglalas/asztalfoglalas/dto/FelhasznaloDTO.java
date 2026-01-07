@@ -1,8 +1,6 @@
 package com.asztalfoglalas.asztalfoglalas.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class FelhasznaloDTO {
 
@@ -16,10 +14,13 @@ public class FelhasznaloDTO {
 
     @NotBlank
     @Size(min = 6, message = "Minimum 6 karakterből álljon!")
+    @Email(message = "Érvényes email-cím formátumot adj meg!")
     private String email;
 
     @NotBlank
     @Size(min = 8, message = "Legyen minimum 8 karakter hosszú!")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$",
+            message = "Tartalmazzon legalább egy számot, kisbetűt és nagybetűt!")
     private String jelszo;
 
     @NotBlank

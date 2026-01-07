@@ -29,7 +29,7 @@ public class FoglalasServiceImpl implements FoglalasService{
     }
 
     @Override
-    public void save(FoglalasDTO foglalas) {
+    public Foglalas save(FoglalasDTO foglalas) {
 
         Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.findById(foglalas.getFelhasznaloId());
         Optional<Asztal> optionalAsztal = asztalRepository.findById(foglalas.getAsztalId());
@@ -46,10 +46,10 @@ public class FoglalasServiceImpl implements FoglalasService{
                     foglalas.getFoglalasVege());
 
             foglalasRepository.save(foglalasEntity);
+            return foglalasEntity;
         } else {
             throw new RuntimeException("A felhasználó vagy az asztal nem létezik a beolvasott azonosítóval!");
         }
-
     }
 
     @Override
@@ -59,7 +59,6 @@ public class FoglalasServiceImpl implements FoglalasService{
 
     @Override
     public Foglalas findById(int id) {
-
         return foglalasRepository.findById(id).orElse(null);
     }
 
@@ -76,14 +75,8 @@ public class FoglalasServiceImpl implements FoglalasService{
     }
 
     @Override
-    public Foglalas findLatestFoglalasByFelhasznaloId(int id) {
-        Optional<Foglalas> optionalFoglalas = foglalasRepository.findLatestFoglalasByFelhasznaloId(id);
-
-        if(optionalFoglalas.isEmpty()) {
-            throw new RuntimeException("A keresett foglalás nem létezik.");
-        }
-
-        return optionalFoglalas.get();
+    public boolean isVendegSzamTobbMintFerohely(FoglalasDTO foglalas, Asztal asztal) {
+        return  foglalas.getVendegek() > asztal.getFerohely();
     }
 
 }

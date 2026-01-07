@@ -43,7 +43,7 @@ public class AsztalfoglalasController {
         int felhasznaloId = felhasznaloService.findFelhasznaloIdByEmail(principal.getName());
         foglalas.setFelhasznaloId(felhasznaloId);
         //Thymeleaf számára, hogy a th:field-ben már legyen kezdeti érték, a vendégszám és a foglalás minimális hosszát
-        //megadom beállítom itt a modellben, amelyet a felhasználó felülírhat majd
+        //beállítom itt a modellben, amelyet a felhasználó felülírhat majd
         foglalas.setVendegek(1);
         foglalas.setMeddig(30);
         model.addAttribute("foglalas", foglalas);
@@ -66,56 +66,42 @@ public class AsztalfoglalasController {
         List<Asztal> foglaltAsztalok = asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
         List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
         List<Asztal> asztalok = asztalService.findAll();
+        Asztal asztal = asztalService.findById(foglalas.getAsztalId());
 
         //létezik-e a kiválasztott asztal (html érték átírása ellen ellenőrzés)
-        if(asztalService.findById(foglalas.getAsztalId()) == null) {
+        if(asztal == null) {
+            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
             model.addAttribute("hiba", "Válassz létező asztalt!");
-            model.addAttribute("foglaltAsztalok", foglaltAsztalok);
-            model.addAttribute("szabadAsztalok", szabadAsztalok);
-            model.addAttribute("asztalok", asztalok);
-            model.addAttribute("foglalas", foglalas);
+
             return "ulohely-foglalas";
         }
 
-        Asztal asztal = asztalService.findById(foglalas.getAsztalId());
-
         //asztal kiszűrése id alapján, hogy az adott időközben ne legyen már lefoglalva
-        if(asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege()).contains(asztal)) {
-
+        if(asztalService.checkAsztalFoglaltE(asztal, foglalas.getIdopont(), foglalas.getFoglalasVege())) {
+            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
             model.addAttribute("hiba", "Ez az asztal már foglalt a kiválasztott időben!");
-            model.addAttribute("foglaltAsztalok", foglaltAsztalok);
-            model.addAttribute("szabadAsztalok", szabadAsztalok);
-            model.addAttribute("asztalok", asztalok);
-            model.addAttribute("foglalas", foglalas);
+
             return "ulohely-foglalas";
         }
 
         //vendégek száma ne haladja túl a kiválasztott asztal férőhelyét
-        if(foglalas.getVendegek() > asztal.getFerohely()) {
-
+        if(foglalasService.isVendegSzamTobbMintFerohely(foglalas, asztal)) {
+            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
             model.addAttribute("hiba", "A kiválasztott asztal túl kicsi a vendégeid számához képest!");
-            model.addAttribute("foglaltAsztalok", foglaltAsztalok);
-            model.addAttribute("szabadAsztalok", szabadAsztalok);
-            model.addAttribute("asztalok", asztalok);
-            model.addAttribute("foglalas", foglalas);
+
             return "ulohely-foglalas";
         }
 
         //ha a vendégek száma jóval kisebb (pl. <2) mint az asztal férőhelye, csak akkor fogadja el a foglalást,
         // ha nincs szabad asztal kevesebb férőhellyel (a vendégek számánál nem kevesebbel) az időpontban.
-        if((asztal.getFerohely() - foglalas.getVendegek()) > 2 &&
-                (szabadAsztalok.stream().filter(a -> (a.getFerohely() - foglalas.getVendegek()) < 2).count() > 0 )) {
-
+        if(asztalService.checkAsztalOptimalisE(foglalas, asztal)) {
+            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
             model.addAttribute("hiba", "A kiválasztott asztal túl nagy férőhellyel rendelkezik a vendégeid számához képest!");
-            model.addAttribute("foglaltAsztalok", foglaltAsztalok);
-            model.addAttribute("szabadAsztalok", szabadAsztalok);
-            model.addAttribute("asztalok", asztalok);
-            model.addAttribute("foglalas", foglalas);
+
             return "ulohely-foglalas";
         }
 
-        foglalasService.save(foglalas);
-        Foglalas ujFoglalas = foglalasService.findLatestFoglalasByFelhasznaloId(foglalas.getFelhasznaloId());
+        Foglalas ujFoglalas = foglalasService.save(foglalas);
         redirectAttributes.addFlashAttribute("foglalas", ujFoglalas);
         return "redirect:/sikeres-foglalas";
     }
@@ -130,7 +116,6 @@ public class AsztalfoglalasController {
         if (bindingResult.hasErrors()){
             return "idopontfoglalas";
         }
-
 
         //felhasználó kiszűrése hogy az adott időközben ne legyen már aktív foglalása
         if(foglalasService.checkAktivFoglalasByFelhasznaloId(foglalas.getFelhasznaloId(),
@@ -149,10 +134,7 @@ public class AsztalfoglalasController {
             return "idopontfoglalas";
         }
 
-        model.addAttribute("foglaltAsztalok", foglaltAsztalok);
-        model.addAttribute("szabadAsztalok", szabadAsztalok);
-        model.addAttribute("asztalok", asztalok);
-        model.addAttribute("foglalas", foglalas);
+        addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
 
         if(foglalas.getIdopont().isBefore(most)) {
             model.addAttribute("hiba", "Legalább 60 perccel későbbi időpontot válassz!");
@@ -177,10 +159,9 @@ public class AsztalfoglalasController {
                                     RedirectAttributes redirectAttributes) {
 
         Felhasznalo felhasznalo = felhasznaloService.findFelhasznaloByEmail(principal.getName());
+        Foglalas foglalas = foglalasService.findById(foglalasId);
 
-        if(foglalasService.findById(foglalasId) == null ||
-                felhasznalo.getId() != foglalasService.findById(foglalasId).getFelhasznalo().getId()) {
-
+        if(foglalas == null || felhasznalo.getId() != foglalas.getFelhasznalo().getId()) {
             redirectAttributes.addFlashAttribute("hiba",
                     "A törölni kívánt foglalás nem elérhető!");
             return "redirect:/aktiv-foglalasaim";
@@ -189,6 +170,14 @@ public class AsztalfoglalasController {
         foglalasService.deleteById(foglalasId);
         redirectAttributes.addFlashAttribute("sikeresTorles", "A foglalás sikeresen törölve!");
         return "redirect:/aktiv-foglalasaim";
+    }
+
+    private void addCommonDataToModel(Model model, List<Asztal> foglaltAsztalok, List<Asztal> szabadAsztalok,
+                                      List<Asztal> asztalok, FoglalasDTO foglalas) {
+        model.addAttribute("foglaltAsztalok", foglaltAsztalok);
+        model.addAttribute("szabadAsztalok", szabadAsztalok);
+        model.addAttribute("asztalok", asztalok);
+        model.addAttribute("foglalas", foglalas);
     }
 
 }

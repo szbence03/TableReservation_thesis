@@ -89,8 +89,4 @@ public class FoglalasDTO {
         return idopont.plusMinutes(meddig);
     }
 
-
-
-
-
 }

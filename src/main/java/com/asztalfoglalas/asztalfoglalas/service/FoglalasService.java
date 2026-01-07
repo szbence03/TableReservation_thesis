@@ -1,6 +1,7 @@
 package com.asztalfoglalas.asztalfoglalas.service;
 
 import com.asztalfoglalas.asztalfoglalas.dto.FoglalasDTO;
+import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
 import com.asztalfoglalas.asztalfoglalas.entity.Foglalas;
 
 import java.time.LocalDateTime;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface FoglalasService {
 
-    void save(FoglalasDTO foglalas);
+    Foglalas save(FoglalasDTO foglalas);
 
     void deleteById(int id);
 
@@ -18,6 +19,5 @@ public interface FoglalasService {
 
     List<Foglalas> getAktivFoglalasokByFelhasznaloId(int id);
 
-    Foglalas findLatestFoglalasByFelhasznaloId(int id);
-
+    boolean isVendegSzamTobbMintFerohely(FoglalasDTO foglalas, Asztal asztal);
 }
