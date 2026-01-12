@@ -54,18 +54,14 @@ public class RegisztracioController {
             return "regisztracio";
         }
 
-        if(felhasznaloService.existsByEmail(felhasznaloDTO.getEmail())) {
-            redirectAttributes.addFlashAttribute("hiba", "Ezzel az email-címmel már regisztráltak!");
-            return "redirect:/regisztracio";
-        }
+        try {
+            felhasznaloService.save(felhasznaloDTO);
+            redirectAttributes.addFlashAttribute("siker", "Sikeres regisztráció!");
+            return "redirect:/bejelentkezes";
 
-        if(!felhasznaloDTO.getJelszo().equals(felhasznaloDTO.getJelszoMegerosites())) {
-            redirectAttributes.addFlashAttribute("hiba", "A jelszavaid nem egyeznek!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("hiba", e.getMessage());
             return "redirect:/regisztracio";
-            }
-            
-        felhasznaloService.save(felhasznaloDTO);
-        redirectAttributes.addFlashAttribute("siker", "Sikeres regisztráció!");
-        return "redirect:/bejelentkezes";
         }
+    }
 }

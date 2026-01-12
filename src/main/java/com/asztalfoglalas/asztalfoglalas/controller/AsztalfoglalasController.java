@@ -66,44 +66,18 @@ public class AsztalfoglalasController {
         List<Asztal> foglaltAsztalok = asztalService.getFoglaltAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
         List<Asztal> szabadAsztalok = asztalService.getSzabadAsztalok(foglalas.getIdopont(), foglalas.getFoglalasVege());
         List<Asztal> asztalok = asztalService.findAll();
-        Asztal asztal = asztalService.findById(foglalas.getAsztalId());
 
-        //létezik-e a kiválasztott asztal (html érték átírása ellen ellenőrzés)
-        if(asztal == null) {
+        try {
+            Foglalas ujFoglalas = foglalasService.save(foglalas);
+            redirectAttributes.addFlashAttribute("foglalas", ujFoglalas);
+            return "redirect:/sikeres-foglalas";
+
+        } catch (RuntimeException e) {
             addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
-            model.addAttribute("hiba", "Válassz létező asztalt!");
+            model.addAttribute("hiba", e.getMessage());
 
             return "ulohely-foglalas";
         }
-
-        //asztal kiszűrése id alapján, hogy az adott időközben ne legyen már lefoglalva
-        if(asztalService.checkAsztalFoglaltE(asztal, foglalas.getIdopont(), foglalas.getFoglalasVege())) {
-            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
-            model.addAttribute("hiba", "Ez az asztal már foglalt a kiválasztott időben!");
-
-            return "ulohely-foglalas";
-        }
-
-        //vendégek száma ne haladja túl a kiválasztott asztal férőhelyét
-        if(foglalasService.isVendegSzamTobbMintFerohely(foglalas, asztal)) {
-            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
-            model.addAttribute("hiba", "A kiválasztott asztal túl kicsi a vendégeid számához képest!");
-
-            return "ulohely-foglalas";
-        }
-
-        //ha a vendégek száma jóval kisebb (pl. <2) mint az asztal férőhelye, csak akkor fogadja el a foglalást,
-        // ha nincs szabad asztal kevesebb férőhellyel (a vendégek számánál nem kevesebbel) az időpontban.
-        if(asztalService.checkAsztalOptimalisE(foglalas, asztal)) {
-            addCommonDataToModel(model, foglaltAsztalok, szabadAsztalok, asztalok, foglalas);
-            model.addAttribute("hiba", "A kiválasztott asztal túl nagy férőhellyel rendelkezik a vendégeid számához képest!");
-
-            return "ulohely-foglalas";
-        }
-
-        Foglalas ujFoglalas = foglalasService.save(foglalas);
-        redirectAttributes.addFlashAttribute("foglalas", ujFoglalas);
-        return "redirect:/sikeres-foglalas";
     }
 
     @PostMapping("/idopontfoglalas")

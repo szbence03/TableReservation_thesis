@@ -8,14 +8,12 @@ import java.util.Optional;
 
 public interface FelhasznaloRepository extends JpaRepository<Felhasznalo, Integer> {
 
-    //mivel nincs felhasználónév az adatbázisomban csak vezetéknév, keresztnév, ezért email alapján fogom
-    // megkeresni és betölteni a felhasználót a sessionbe, ha létezik
-    @Query("SELECT f FROM Felhasznalo f WHERE f.email = ?1")
-    Optional<Felhasznalo> loadUserByUsername(String email);
 
     @Query("SELECT f.id FROM Felhasznalo f WHERE f.email = ?1")
-    int findFelhasznaloIdByEmail(String email);
+    Optional<Integer> findFelhasznaloIdByEmail(String email);
 
+    //mivel nincs felhasználónév az adatbázisomban csak vezetéknév, keresztnév, ezért email alapján fogom
+    // megkeresni és betölteni a felhasználót a sessionbe, ha létezik
     @Query("SELECT f FROM Felhasznalo f WHERE f.email = ?1")
     Optional<Felhasznalo> findFelhasznaloByEmail(String email);
 }

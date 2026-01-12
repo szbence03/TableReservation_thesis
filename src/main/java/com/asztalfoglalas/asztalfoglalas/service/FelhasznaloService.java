@@ -9,6 +9,8 @@ public interface FelhasznaloService extends UserDetailsService {
 
     void save(FelhasznaloDTO felhasznalo);
 
+    Felhasznalo findById(int id);
+
     UserDetails loadUserByUsername(String email);
 
     int findFelhasznaloIdByEmail(String email);

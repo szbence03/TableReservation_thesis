@@ -1,14 +1,14 @@
-package com.asztalfoglalas.asztalfoglalas.service;
+package com.asztalfoglalas.asztalfoglalas.service.impl;
 
 import com.asztalfoglalas.asztalfoglalas.dto.FoglalasDTO;
 import com.asztalfoglalas.asztalfoglalas.repository.AsztalRepository;
 import com.asztalfoglalas.asztalfoglalas.entity.Asztal;
+import com.asztalfoglalas.asztalfoglalas.service.AsztalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AsztalServiceImpl implements AsztalService {

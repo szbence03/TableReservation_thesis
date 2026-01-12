@@ -15,5 +15,4 @@ public interface AsztalRepository extends JpaRepository<Asztal, Integer> {
     @Query("SELECT a FROM Asztal a WHERE a.id IN (SELECT f.asztal.id FROM Foglalas f WHERE f.mettol <= ?2 AND f.meddig >= ?1)")
     List<Asztal> getFoglaltAsztalok(LocalDateTime mettol, LocalDateTime meddig);
 
-
 }

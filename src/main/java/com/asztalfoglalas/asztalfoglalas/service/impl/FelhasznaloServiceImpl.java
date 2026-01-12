@@ -1,18 +1,20 @@
-package com.asztalfoglalas.asztalfoglalas.service;
+package com.asztalfoglalas.asztalfoglalas.service.impl;
 
 import com.asztalfoglalas.asztalfoglalas.repository.FelhasznaloRepository;
 import com.asztalfoglalas.asztalfoglalas.dto.FelhasznaloDTO;
 import com.asztalfoglalas.asztalfoglalas.entity.Felhasznalo;
+import com.asztalfoglalas.asztalfoglalas.service.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-public class FelhasznaloServiceImpl implements FelhasznaloService{
+public class FelhasznaloServiceImpl implements FelhasznaloService {
 
     private final FelhasznaloRepository felhasznaloRepository;
 
@@ -26,7 +28,16 @@ public class FelhasznaloServiceImpl implements FelhasznaloService{
 
 
     @Override
+    @Transactional
     public void save(FelhasznaloDTO felhasznalo) {
+
+        if(existsByEmail(felhasznalo.getEmail())) {
+            throw new RuntimeException("Ezzel az email-címmel már regisztráltak!");
+        }
+        if(!felhasznalo.getJelszo().equals(felhasznalo.getJelszoMegerosites())) {
+            throw new RuntimeException("A jelszavaid nem egyeznek!");
+        }
+
         Felhasznalo felhasznaloEntity = new Felhasznalo(
                 felhasznalo.getKeresztnev(),
                 felhasznalo.getVezeteknev(),
@@ -35,10 +46,15 @@ public class FelhasznaloServiceImpl implements FelhasznaloService{
         felhasznaloRepository.save(felhasznaloEntity);
     }
 
+    @Override
+    public Felhasznalo findById(int id) {
+        return felhasznaloRepository.findById(id).orElse(null);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.loadUserByUsername(email);
+        Optional<Felhasznalo> optionalFelhasznalo = felhasznaloRepository.findFelhasznaloByEmail(email);
 
         if(optionalFelhasznalo.isEmpty()) {
             throw new UsernameNotFoundException("A keresett felhasználó nem létezik!");
@@ -54,7 +70,7 @@ public class FelhasznaloServiceImpl implements FelhasznaloService{
 
     @Override
     public int findFelhasznaloIdByEmail(String email) {
-        return felhasznaloRepository.findFelhasznaloIdByEmail(email);
+        return felhasznaloRepository.findFelhasznaloIdByEmail(email).orElse(-1);
     }
 
     @Override

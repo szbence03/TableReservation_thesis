@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface FoglalasRepository extends JpaRepository<Foglalas, Integer> {
 
@@ -20,5 +19,4 @@ public interface FoglalasRepository extends JpaRepository<Foglalas, Integer> {
     @Modifying
     @Query("DELETE FROM Foglalas f WHERE f.meddig < ?1")
     int deleteLejartFoglalasok(LocalDateTime most);
-
 }
