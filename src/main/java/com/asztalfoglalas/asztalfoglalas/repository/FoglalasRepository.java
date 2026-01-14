@@ -13,7 +13,7 @@ public interface FoglalasRepository extends JpaRepository<Foglalas, Integer> {
     @Query("SELECT f FROM Foglalas f WHERE f.felhasznalo.id = ?1 AND f.mettol <= ?3 AND f.meddig >= ?2")
     List<Foglalas> checkAktivFoglalasokByFelhasznaloId(int id, LocalDateTime mettol, LocalDateTime meddig);
 
-    @Query("SELECT f FROM Foglalas f WHERE f.felhasznalo.id = ?1 AND f.meddig >= ?2 ORDER BY f.mettol ASC")
+    @Query("SELECT f FROM Foglalas f WHERE f.felhasznalo.id = ?1 AND f.mettol >= ?2 ORDER BY f.mettol ASC")
     List<Foglalas> getAktivFoglalasokByFelhasznaloId(int id, LocalDateTime most);
 
     @Modifying
