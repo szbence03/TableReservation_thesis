@@ -29,7 +29,7 @@ public class SecurityConfig {
                                         "/",
                                         "/asztal.png",
                                         "/regisztracio**",
-                                        "/bejelentkezes").permitAll()
+                                        "/bejelentkezes**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
