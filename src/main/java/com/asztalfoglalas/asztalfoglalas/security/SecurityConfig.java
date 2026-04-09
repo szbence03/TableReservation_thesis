@@ -27,6 +27,7 @@ public class SecurityConfig {
                         config
                                 .requestMatchers(
                                         "/",
+                                        "/asztal.png",
                                         "/regisztracio**",
                                         "/bejelentkezes").permitAll()
                                 .anyRequest().authenticated()

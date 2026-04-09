@@ -47,6 +47,9 @@
     <div th:if="${param.error}" class="alert alert-danger" role="alert">
       Hibás felhasználónév vagy jelszó!
     </div>
+    <div th:if="${param.kijelentkezve}" class="alert alert-success" role="alert">
+      Sikeres kijelentkezés
+    </div>
     <div th:if="${siker}" class="alert alert-success" role="alert">
       <p th:text="${siker}" class="text-center"> </p>
     </div>
