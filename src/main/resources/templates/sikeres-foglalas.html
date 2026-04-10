@@ -6,13 +6,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Sikeres foglalás</title>
 </head>
-<body data-bs-theme="dark" class="bg-body-tertiary">
+<body data-bs-theme="dark" class="bg-body-tertiary d-flex flex-column min-vh-100">
 
 <header class="p-3 text-bg-dark" data-bs-theme="dark">
     <div th:replace="~{header :: header}"></div>
 </header>
-<main class="position-absolute top-50 start-50 translate-middle w-100" style="max-width:800px;">
-    <div class="bg-dark-subtle p-4 rounded">
+<main class="d-flex flex-grow-1 align-items-center justify-content-center py-4 w-100">
+    <div class="bg-dark-subtle p-4 rounded" style="max-width:800px; width: 100%">
         <div class="d-flex justify-content-center mb-3">
             <h1>Sikeresen lefoglaltad az asztalodat!</h1>
         </div>
