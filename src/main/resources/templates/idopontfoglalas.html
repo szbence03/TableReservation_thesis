@@ -11,13 +11,13 @@
         }
     </style>
 </head>
-<body data-bs-theme="dark" class="bg-body-tertiary">
+<body data-bs-theme="dark" class="bg-body-tertiary d-flex flex-column min-vh-100">
 <header class="p-3 text-bg-dark" data-bs-theme="dark">
     <div th:replace="~{header :: header}"></div>
 </header>
 
-<main class="position-absolute top-50 start-50 translate-middle w-100" style="max-width: 800px;">
-    <div class="w-100">
+<main class="d-flex flex-grow-1 align-items-center justify-content-center py-4">
+    <div class="w-100" style="max-width: 800px;">
         <h3 class="h3 mb-3 fw-normal text-center">Asztalfoglalás 1/2</h3>
         <div class="d-flex justify-content-center mb-3">
             <div class="progress w-50 mb-5" role="progressbar" aria-label="Foglalás progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">

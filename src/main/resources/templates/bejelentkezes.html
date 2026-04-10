@@ -35,13 +35,14 @@
   </style>
 
 </head>
-<body data-bs-theme="dark" class="bg-body-tertiary">
+<body data-bs-theme="dark" class="bg-body-tertiary d-flex flex-column min-vh-100">
 
 <header class="p-3 text-bg-dark" data-bs-theme="dark">
   <div th:replace="~{header :: header}"></div>
 </header>
 
-<main class="position-absolute bejelentkezes w-100 m-auto top-50 start-50 translate-middle">
+<main class="d-flex flex-grow-1 align-items-center justify-content-center py-4">
+  <div class="bejelentkezes w-100">
   <form class="bg-dark-subtle p-3 rounded" th:action="@{/bejelentkezes-feldolgozas}" method="post">
     <h3 class="h3 mb-3 fw-normal text-center">Jelentkezz be!</h3>
     <div th:if="${param.error}" class="alert alert-danger" role="alert">
@@ -63,6 +64,7 @@
     </div>
     <button class="btn btn-primary w-100 py-2" type="submit">Bejelentkezés</button>
   </form>
+  </div>
 </main>
 </body>
 

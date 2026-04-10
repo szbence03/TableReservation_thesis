@@ -35,7 +35,7 @@
     }
   </style>
 </head>
-<body data-bs-theme="dark" class="bg-body-tertiary">
+<body data-bs-theme="dark" class="bg-body-tertiary d-flex flex-column min-vh-100">
 
 <header class="p-3 text-bg-dark" data-bs-theme="dark">
   <div th:replace="~{header :: header}"></div>
@@ -46,7 +46,8 @@
 </div>
 
 
-  <main class="position-absolute regisztracio w-100 m-auto top-50 start-50 translate-middle">
+  <main class="d-flex flex-grow-1 align-items-center justify-content-center py-4">
+    <div class="regisztracio w-100">
     <form class="row g-3 bg-dark-subtle p-4 rounded" th:action="@{/regisztracio-feldolgozas}" th:object="${felhasznalo}" method="post">
       <h3 class="h3 mb-3 fw-normal text-center">Regisztráció</h3>
       <div th:if="${hiba}" class="alert alert-danger" role="alert">
@@ -101,6 +102,7 @@
         <button type="submit" class="btn btn-primary w-100 py-2">Regisztráció</button>
       </div>
     </form>
+    </div>
   </main>
 </body>
 
