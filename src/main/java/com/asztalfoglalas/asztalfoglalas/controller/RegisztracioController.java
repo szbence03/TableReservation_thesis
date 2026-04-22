@@ -43,7 +43,7 @@ public class RegisztracioController {
     }
 
     @PostMapping("/regisztracio-feldolgozas")
-    public String regisztacio(@Valid @ModelAttribute("felhasznalo")FelhasznaloDTO felhasznaloDTO,
+    public String regisztracio(@Valid @ModelAttribute("felhasznalo")FelhasznaloDTO felhasznaloDTO,
                               BindingResult bindingResult, Authentication authentication,
                               RedirectAttributes redirectAttributes) {
 
