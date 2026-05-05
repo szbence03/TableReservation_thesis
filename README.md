@@ -2,7 +2,7 @@
 
 ## Alkalmazás használata interneten keresztül
 A kész alkalmazás elérhető ezen a linken: https://asztalfoglalas.up.railway.app
-*Az alkalmazás funkcióinak eléréséhez regisztráció szükséges, ez bármilyen kitalált adattal megtehető, mivel az email-cím valódiságát a rendszer nem vizsgálja.* 
+#### *Az alkalmazás funkcióinak eléréséhez regisztráció szükséges, ez bármilyen kitalált adattal megtehető, mivel az email-cím valódiságát a rendszer nem vizsgálja.* 
 ## Alkalmazás használata lokálisan
 ### 1)	Lokális futtatáshoz szükséges szoftverek: 
   -	Java Development Kit (JDK) 21 vagy újabb verzió
